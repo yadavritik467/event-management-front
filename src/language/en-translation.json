@@ -1,0 +1,55 @@
+{
+  "brand": "EventHub",
+  "nav": {
+    "features": "Features",
+    "about": "About",
+    "contact": "Contact",
+    "login": "Login"
+  },
+  "hero": {
+    "badge": "Welcome to the Future of Events",
+    "title": "Create & Manage",
+    "amazingEvents": "Amazing Events",
+    "description": "Transform your event management experience with our powerful platform. Create, organize, and manage events that bring people together and create unforgettable memories.",
+    "getStarted": "Get Started Free",
+    "watchDemo": "Watch Demo"
+  },
+  "stats": {
+    "events": "Events Created",
+    "users": "Happy Users",
+    "cities": "Cities Covered",
+    "rating": "User Rating"
+  },
+  "featureSection": {
+    "title": "Why Choose EventHub?",
+    "description": "Discover the features that make event management effortless and enjoyable",
+    "feature1": {
+      "title": "Easy Event Creation",
+      "description": "Create and manage events with our intuitive interface in just a few clicks."
+    },
+    "feature2": {
+      "title": "Community Building",
+      "description": "Connect with like-minded people and build lasting relationships through events."
+    },
+    "feature3": {
+      "title": "Premium Experience",
+      "description": "Enjoy a seamless event management experience with our cutting-edge platform."
+    }
+  },
+  "cta": {
+    "title": "Ready to Create Amazing Events?",
+    "description": "Join thousands of event organizers who trust EventHub to bring their visions to life",
+    "create": "Start Creating Events",
+    "signin": "Sign In to Continue"
+  },
+  "footer": {
+    "quickLinks": "Quick Links",
+    "support": "Support",
+    "about": "About Us",
+    "help": "Help Center",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "copyright": "© 2025 EventHub. All rights reserved.",
+    "tagline": "Creating memorable experiences through seamless event management. Join our community today."
+  }
+}

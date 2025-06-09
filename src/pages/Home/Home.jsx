@@ -8,39 +8,46 @@ import {
   Users,
   X,
 } from "lucide-react";
+import { useEffect } from "react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const { t, i18n } = useTranslation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    document.documentElement.dir = i18n.language === "ar" ? "rtl" : "ltr";
+  }, [i18n.language]);
+  const changeLanguage = (lang) => {
+    i18n.changeLanguage(lang);
+  };
 
   const features = [
     {
       icon: Calendar,
-      title: "Easy Event Creation",
-      description:
-        "Create and manage events with our intuitive interface in just a few clicks.",
+      title: t("featureSection.feature1.title"),
+      description: t("featureSection.feature1.description"),
     },
     {
       icon: Users,
-      title: "Community Building",
-      description:
-        "Connect with like-minded people and build lasting relationships through events.",
+      title: t("featureSection.feature2.title"),
+      description: t("featureSection.feature2.description"),
     },
     {
       icon: Star,
-      title: "Premium Experience",
-      description:
-        "Enjoy a seamless event management experience with our cutting-edge platform.",
+      title: t("featureSection.feature3.title"),
+      description: t("featureSection.feature3.description"),
     },
   ];
 
   const stats = [
-    { number: "10K+", label: "Events Created" },
-    { number: "50K+", label: "Happy Users" },
-    { number: "100+", label: "Cities Covered" },
-    { number: "4.9★", label: "User Rating" },
+    { number: "10K+", label: t("stats.events") },
+    { number: "50K+", label: t("stats.users") },
+    { number: "100+", label: t("stats.cities") },
+    { number: "4.9★", label: t("stats.rating") },
   ];
 
   const handleLogin = () => {
@@ -49,11 +56,20 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900">
-      {/* Background decorative elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
-        <div className="absolute top-40 left-40 w-96 h-96 bg-indigo-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
+      {/* Language Toggle */}
+      <div className="absolute top-4 right-4 z-50">
+        <button
+          onClick={() => changeLanguage("en")}
+          className="text-white px-3 py-1 rounded bg-purple-600 mx-1"
+        >
+          EN
+        </button>
+        <button
+          onClick={() => changeLanguage("ar")}
+          className="text-white px-3 py-1 rounded bg-pink-600 mx-1"
+        >
+          AR
+        </button>
       </div>
 
       {/* Navbar */}
@@ -65,7 +81,9 @@ const Home = () => {
               <div className="bg-gradient-to-r from-purple-400 to-pink-400 p-2 rounded-xl">
                 <Calendar className="w-8 h-8 text-white" />
               </div>
-              <span className="text-2xl font-bold text-white">EventHub</span>
+              <span className="text-2xl font-bold text-white">
+                {t("brand")}
+              </span>
             </div>
 
             {/* Desktop Navigation */}
@@ -74,25 +92,25 @@ const Home = () => {
                 href="#features"
                 className="text-gray-300 hover:text-white transition-colors duration-300"
               >
-                Features
+                {t("brand")}
               </a>
               <a
                 href="#about"
                 className="text-gray-300 hover:text-white transition-colors duration-300"
               >
-                About
+                {t("nav.about")}
               </a>
               <a
                 href="#contact"
                 className="text-gray-300 hover:text-white transition-colors duration-300"
               >
-                Contact
+                {t("nav.contact")}
               </a>
               <button
                 onClick={handleLogin}
                 className="bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold py-2 px-6 rounded-xl hover:from-purple-600 hover:to-pink-600 transition-all duration-300 transform hover:scale-105 shadow-lg"
               >
-                Login
+                {t("nav.login")}
               </button>
             </div>
 
@@ -117,25 +135,25 @@ const Home = () => {
                   href="#features"
                   className="text-gray-300 hover:text-white transition-colors duration-300 py-2"
                 >
-                  Features
+                  {t("nav.features")}
                 </a>
                 <a
                   href="#about"
                   className="text-gray-300 hover:text-white transition-colors duration-300 py-2"
                 >
-                  About
+                  {t("nav.about")}
                 </a>
                 <a
                   href="#contact"
                   className="text-gray-300 hover:text-white transition-colors duration-300 py-2"
                 >
-                  Contact
+                  {t("nav.contact")}
                 </a>
                 <button
                   onClick={handleLogin}
                   className="bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold py-3 px-6 rounded-xl hover:from-purple-600 hover:to-pink-600 transition-all duration-300 w-full"
                 >
-                  Login
+                  {t("nav.login")}
                 </button>
               </div>
             </div>
@@ -151,32 +169,30 @@ const Home = () => {
             <div className="text-center lg:text-left">
               <div className="mb-6">
                 <span className="bg-gradient-to-r from-purple-400/20 to-pink-400/20 border border-purple-400/30 text-purple-300 px-4 py-2 rounded-full text-sm font-medium">
-                  ✨ Welcome to the Future of Events
+                  ✨ {t("hero.badge")}
                 </span>
               </div>
 
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-                Create & Manage
+                {t("hero.title")}
                 <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
                   {" "}
-                  Amazing Events
+                  {t("hero.amazingEvents")}
                 </span>
               </h1>
 
               <p className="text-xl text-gray-300 mb-8 leading-relaxed">
-                Transform your event management experience with our powerful
-                platform. Create, organize, and manage events that bring people
-                together and create unforgettable memories.
+                {t("hero.description")}
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 mb-12">
                 <button className="bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold py-4 px-8 rounded-xl hover:from-purple-600 hover:to-pink-600 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center gap-2">
                   <Sparkles className="w-5 h-5" />
-                  Get Started Free
+                  {t("hero.getStarted")}
                   <ArrowRight className="w-5 h-5" />
                 </button>
                 <button className="bg-white/10 backdrop-blur-lg border border-white/20 text-white font-semibold py-4 px-8 rounded-xl hover:bg-white/20 transition-all duration-300">
-                  Watch Demo
+                  {t("hero.watchDemo")}
                 </button>
               </div>
 
@@ -210,11 +226,10 @@ const Home = () => {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              Why Choose EventHub?
+              {t("featureSection.title")}
             </h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              Discover the features that make event management effortless and
-              enjoyable
+              {t("featureSection.description")}
             </p>
           </div>
 
@@ -247,22 +262,21 @@ const Home = () => {
         <div className="max-w-4xl mx-auto">
           <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-8 md:p-12 text-center shadow-2xl">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-              Ready to Create Amazing Events?
+              {t("cta.title")}
             </h2>
             <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-              Join thousands of event organizers who trust EventHub to bring
-              their visions to life
+              {t("cta.description")}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button className="bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold py-4 px-8 rounded-xl hover:from-purple-600 hover:to-pink-600 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center gap-2">
                 <Calendar className="w-5 h-5" />
-                Start Creating Events
+                {t("cta.create")}
               </button>
               <button
                 onClick={handleLogin}
                 className="bg-white/10 backdrop-blur-lg border border-white/20 text-white font-semibold py-4 px-8 rounded-xl hover:bg-white/20 transition-all duration-300"
               >
-                Sign In to Continue
+                {t("cta.signin")}
               </button>
             </div>
           </div>
@@ -278,67 +292,71 @@ const Home = () => {
                 <div className="bg-gradient-to-r from-purple-400 to-pink-400 p-2 rounded-xl">
                   <Calendar className="w-6 h-6 text-white" />
                 </div>
-                <span className="text-xl font-bold text-white">EventHub</span>
+                <span className="text-xl font-bold text-white">
+                  {t("brand")}
+                </span>
               </div>
               <p className="text-gray-300 mb-4 max-w-md">
-                Creating memorable experiences through seamless event
-                management. Join our community today.
+                {t("footer.tagline")}
               </p>
             </div>
 
             <div>
-              <h4 className="text-white font-semibold mb-4">Quick Links</h4>
+              <h4 className="text-white font-semibold mb-4">
+                {t("footer.quickLinks")}
+              </h4>
               <div className="space-y-2">
                 <a
                   href="#features"
                   className="block text-gray-300 hover:text-white transition-colors duration-300"
                 >
-                  Features
+                  {t("nav.features")}
                 </a>
                 <a
                   href="#about"
                   className="block text-gray-300 hover:text-white transition-colors duration-300"
                 >
-                  About Us
+                  {t("footer.about")}
                 </a>
                 <a
                   href="#contact"
                   className="block text-gray-300 hover:text-white transition-colors duration-300"
                 >
-                  Contact
+                  {t("nav.contact")}
                 </a>
               </div>
             </div>
 
             <div>
-              <h4 className="text-white font-semibold mb-4">Support</h4>
+              <h4 className="text-white font-semibold mb-4">
+                {" "}
+                {t("footer.support")}
+              </h4>
               <div className="space-y-2">
                 <a
                   href="#"
                   className="block text-gray-300 hover:text-white transition-colors duration-300"
                 >
-                  Help Center
+                  {t("footer.help")}
                 </a>
                 <a
                   href="#"
                   className="block text-gray-300 hover:text-white transition-colors duration-300"
                 >
-                  Privacy Policy
+                  {t("footer.privacy")}
                 </a>
                 <a
                   href="#"
                   className="block text-gray-300 hover:text-white transition-colors duration-300"
                 >
-                  Terms of Service
+                  {t("footer.terms")}
                 </a>
               </div>
             </div>
           </div>
 
           <div className="border-t border-white/10 mt-8 pt-8 text-center">
-            <p className="text-gray-300">
-              © 2025 EventHub. All rights reserved.
-            </p>
+            <p className="text-gray-300">{t("footer.copyright")}</p>
           </div>
         </div>
       </footer>
