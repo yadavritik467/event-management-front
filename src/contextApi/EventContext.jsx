@@ -14,7 +14,7 @@ export const useEvent = () => {
 export const EventProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [allEvents, setAllEvents] = useState([]);
-  const [singleEvent,setSingleEvent] = useState({})
+  const [singleEvent, setSingleEvent] = useState({});
 
   const adminEventRegistrationApi = async (formData) => {
     try {
@@ -24,6 +24,23 @@ export const EventProvider = ({ children }) => {
         formData
       );
       setLoading(false);
+      return data;
+    } catch (error) {
+      setLoading(false);
+      console.log("error", error);
+    }
+  };
+  const adminEditEventRegistrationApi = async (eventId, formData) => {
+    try {
+      setLoading(true);
+      const { data } = await axiosInstance.put(
+        `/admin/registrations/${eventId}`,
+        formData
+      );
+      setLoading(false);
+      if (data) {
+        await singleEventApi(eventId);
+      }
       return data;
     } catch (error) {
       setLoading(false);
@@ -44,10 +61,17 @@ export const EventProvider = ({ children }) => {
       console.log("error", error);
     }
   };
-  const approveUserRegistrationApi = async (eventId,status,registrationId) => {
+  const approveUserRegistrationApi = async (
+    eventId,
+    status,
+    registrationId
+  ) => {
     try {
       setLoading(true);
-      const { data } = await axiosInstance.post(`/admin/registrations/${registrationId}/approve`,{status});
+      const { data } = await axiosInstance.post(
+        `/admin/registrations/${registrationId}/approve`,
+        { status }
+      );
       setLoading(false);
       if (data) {
         await singleEventApi(eventId);
@@ -70,7 +94,7 @@ export const EventProvider = ({ children }) => {
   const singleEventApi = async (eventId) => {
     try {
       const { data } = await axiosInstance.get(`/events/${eventId}`);
-      setSingleEvent(data)
+      setSingleEvent(data);
       console.log("data", data);
     } catch (error) {
       console.log("error", error);
@@ -80,15 +104,16 @@ export const EventProvider = ({ children }) => {
   const all_states = {
     loading,
     allEvents,
-    singleEvent
+    singleEvent,
   };
 
   const all_api_controllers = {
     adminEventRegistrationApi,
+    adminEditEventRegistrationApi,
     getAllEventsApi,
     registerInEventApi,
     singleEventApi,
-    approveUserRegistrationApi
+    approveUserRegistrationApi,
   };
 
   return (

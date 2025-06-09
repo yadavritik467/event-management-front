@@ -1,19 +1,27 @@
-import React, { useState } from "react";
-import { useEvent } from "../contextApi/EventContext";
 import {
   Calendar,
-  Users,
-  FileText,
-  Sparkles,
   Clock,
-  MapPin,
+  FileText,
   Save,
+  Sparkles,
+  Users,
   X,
 } from "lucide-react";
-import { validateFormInput } from "../utils/utils.js";
+import { useState } from "react";
+import { useEvent } from "../../contextApi/EventContext.jsx";
+import { validateFormInput } from "../../utils/utils.js";
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
 
-const CreateEvent = () => {
-  const { adminEventRegistrationApi ,loading} = useEvent();
+const EditEvent = () => {
+  const params = useParams();
+  const {
+    singleEventApi,
+    adminEditEventRegistrationApi,
+    singleEvent,
+    loading,
+  } = useEvent();
+
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -50,31 +58,32 @@ const CreateEvent = () => {
     if (!validateForm()) {
       return;
     }
-    const data = await adminEventRegistrationApi(formData);
-    if (data) {
-      setFormData({
-        title: "",
-        description: "",
-        capacity: "",
-        date: "",
-      });
-    }
+    await adminEditEventRegistrationApi(params?.eventId,formData);
   };
 
-  const handleReset = () => {
-    setFormData({
-      title: "",
-      description: "",
-      capacity: 1,
-      date: "",
-    });
-    setErrors({});
-  };
+  useEffect(() => {
+    if (params?.eventId) {
+      singleEventApi(params?.eventId);
+    }
+  }, [params?.eventId]);
+
+  useEffect(() => {
+    if (singleEvent?.event) {
+      let { _id, date, ...rest } = singleEvent?.event; 
+
+      const formattedDate = date
+        ? new Date(date).toISOString().split("T")[0]
+        : "";
+
+      setFormData({
+        ...rest,
+        date: formattedDate,
+      });
+    }
+  }, [singleEvent?.event]);
 
   return (
     <div className="min-h-screen  bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 p-4 ">
-     
-
       <div className="relative max-w-4xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
@@ -84,11 +93,11 @@ const CreateEvent = () => {
             </div>
           </div>
           <h1 className="text-4xl md:text-3xl font-bold text-white mb-3">
-            Create New Event
+            Edit Event
           </h1>
           <p className="text-gray-300 text-lg max-w-2xl mx-auto">
-            Fill in the details below to create an amazing event that people
-            will love to attend
+            Fill in the details below to edit an amazing event that people will
+            love to attend
           </p>
         </div>
 
@@ -236,55 +245,12 @@ const CreateEvent = () => {
                   ) : (
                     <>
                       <Save className="w-6 h-6" />
-                      Create Event
+                      Edit Event
                     </>
                   )}
                 </button>
-
-                <button
-                  onClick={handleReset}
-                  disabled={loading}
-                  className="flex-1 sm:flex-initial py-4 px-8 rounded-2xl font-semibold text-lg bg-white/10 border border-white/20 text-white hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/50 transition-all duration-300 flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  <X className="w-6 h-6" />
-                  Reset Form
-                </button>
               </div>
             </div>
-          </div>
-        </div>
-
-        {/* Tips Section */}
-        <div className="mt-8 bg-white/5 backdrop-blur-lg rounded-2xl border border-white/10 p-6">
-          <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
-            <MapPin className="w-5 h-5 text-purple-300" />
-            Tips for Creating Great Events
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-300">
-            <ul className="space-y-2">
-              <li className="flex items-start gap-2">
-                <div className="w-2 h-2 bg-purple-400 rounded-full mt-2 flex-shrink-0"></div>
-                <span>
-                  Choose a clear, descriptive title that captures attention
-                </span>
-              </li>
-              <li className="flex items-start gap-2">
-                <div className="w-2 h-2 bg-pink-400 rounded-full mt-2 flex-shrink-0"></div>
-                <span>
-                  Write a detailed description that explains the value
-                </span>
-              </li>
-            </ul>
-            <ul className="space-y-2">
-              <li className="flex items-start gap-2">
-                <div className="w-2 h-2 bg-indigo-400 rounded-full mt-2 flex-shrink-0"></div>
-                <span>Set realistic capacity based on your venue</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <div className="w-2 h-2 bg-green-400 rounded-full mt-2 flex-shrink-0"></div>
-                <span>Choose optimal timing for your target audience</span>
-              </li>
-            </ul>
           </div>
         </div>
       </div>
@@ -292,4 +258,4 @@ const CreateEvent = () => {
   );
 };
 
-export default CreateEvent;
+export default EditEvent;

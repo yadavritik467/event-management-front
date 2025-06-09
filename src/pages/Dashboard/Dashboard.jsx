@@ -1,7 +1,7 @@
 import { Bookmark, Calendar, Clock, Edit2, Share2, Users } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useEvent } from "../contextApi/EventContext";
-import { useAuth } from "../contextApi/AuthContext";
+import { useEvent } from "../../contextApi/EventContext";
+import { useAuth } from "../../contextApi/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
@@ -15,8 +15,6 @@ const Dashboard = () => {
   useEffect(() => {
     getAllEventsApi();
   }, []);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedFilter, setSelectedFilter] = useState("all");
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -37,9 +35,9 @@ const Dashboard = () => {
       return;
     } else if (action === "view") {
       return navigate(`/dashboard/single-event/${eventId}`);
+    } else if (action === "share") {
+      return navigate(`/dashboard/edit-event/${eventId}`);
     }
-    console.log(`${action} event:`, eventId);
-    // Add your event action logic here
   };
 
   return (
@@ -155,7 +153,7 @@ const Dashboard = () => {
 
                     {/* Action Buttons */}
                     <div className="flex gap-2">
-                      {!event?.registeredInEvent && !event?.eventFull && (
+                      {
                         <button
                           onClick={() =>
                             handleEventAction(event?._id, "register")
@@ -173,13 +171,15 @@ const Dashboard = () => {
                             "Register"
                           )}
                         </button>
+                      }
+                      {userState?.role === "admin" && (
+                        <button
+                          onClick={() => handleEventAction(event?._id, "view")}
+                          className="flex-1 bg-white/10 border border-white/20 text-white font-semibold py-2 px-4 rounded-lg hover:bg-white/20 transition-all duration-300 text-sm"
+                        >
+                          View Details
+                        </button>
                       )}
-                      <button
-                        onClick={() => handleEventAction(event?._id, "view")}
-                        className="flex-1 bg-white/10 border border-white/20 text-white font-semibold py-2 px-4 rounded-lg hover:bg-white/20 transition-all duration-300 text-sm"
-                      >
-                        View Details
-                      </button>
                     </div>
                   </div>
                 </div>

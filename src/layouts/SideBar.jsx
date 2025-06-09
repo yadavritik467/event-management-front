@@ -1,23 +1,26 @@
-import React, { useState } from "react";
 import {
-  LayoutDashboard,
-  Plus,
+  Bell,
   Calendar,
+  LayoutDashboard,
   LogOut,
   Menu,
-  X,
+  Plus,
   User,
-  Settings,
-  Bell,
+  X,
 } from "lucide-react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contextApi/AuthContext";
+import { useEvent } from "../contextApi/EventContext";
 
 const SideBar = () => {
-    const {logoutApi,userState} = useAuth()
+  const { logoutApi, userState } = useAuth();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [activeItem, setActiveItem] = useState("/dashboard");
-  const navigate = useNavigate()
+
+  const { allEvents } = useEvent();
+
+  const navigate = useNavigate();
 
   const menuItems = [
     {
@@ -32,25 +35,17 @@ const SideBar = () => {
       icon: Plus,
       path: "/dashboard/create-event",
     },
-    {
-      id: "my-events",
-      label: "My Events",
-      icon: Calendar,
-      path: "/dashboard/my-events",
-    },
   ];
 
-  const handleMenuClick = (itemId,path) => {
+  const handleMenuClick = (itemId, path) => {
     setActiveItem(itemId);
     setIsMobileOpen(false);
-    navigate(path)
-    console.log(`Navigating to: ${itemId}`);
-    // Add your navigation logic here
+    navigate(path);
   };
 
-  const handleLogout = async() => {
-    await logoutApi()
-    navigate("/login")
+  const handleLogout = async () => {
+    await logoutApi();
+    navigate("/login");
   };
 
   return (
@@ -82,8 +77,6 @@ const SideBar = () => {
         ${isMobileOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0
       `}
       >
-        
-
         <div className="relative h-full flex flex-col">
           {/* Close button for mobile */}
           <button
@@ -112,7 +105,10 @@ const SideBar = () => {
                   <User className="w-6 h-6 text-white" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-white font-semibold text-sm"> {userState?.userNameOrEmail} </h3>
+                  <h3 className="text-white font-semibold text-sm">
+                    {" "}
+                    {userState?.userNameOrEmail}{" "}
+                  </h3>
                   <p className="text-gray-300 text-xs">{userState?.role}</p>
                 </div>
                 <button className="text-gray-300 hover:text-white p-1 rounded-lg hover:bg-white/10 transition-all duration-300">
@@ -132,7 +128,7 @@ const SideBar = () => {
                 return (
                   <button
                     key={item.id}
-                    onClick={() => handleMenuClick(item.id,item.path)}
+                    onClick={() => handleMenuClick(item.id, item.path)}
                     className={`
                       w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-left transition-all duration-300 group
                       ${
@@ -166,11 +162,9 @@ const SideBar = () => {
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
                   <span className="text-gray-300 text-xs">Total Events</span>
-                  <span className="text-white font-bold text-sm">12</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-300 text-xs">Registered</span>
-                  <span className="text-purple-300 font-bold text-sm">8</span>
+                  <span className="text-white font-bold text-sm">
+                    {allEvents?.length || 0}
+                  </span>
                 </div>
               </div>
             </div>

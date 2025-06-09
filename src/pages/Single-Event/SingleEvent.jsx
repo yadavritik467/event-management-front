@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { useEvent } from "../contextApi/EventContext";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEvent } from "../../contextApi/EventContext";
 
 import {
   Calendar,
@@ -15,15 +15,15 @@ import {
   Users,
   XCircle,
 } from "lucide-react";
-import { getStatusColor } from "../utils/utils";
+import { getStatusColor } from "../../utils/utils";
 
 const SingleEvent = () => {
   const { singleEventApi, approveUserRegistrationApi, singleEvent } =
     useEvent();
   const params = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // console.log()
     if (params?.eventId) {
       singleEventApi(params?.eventId);
     }
@@ -109,7 +109,12 @@ const SingleEvent = () => {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-3">
-              <button className="bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold py-3 px-6 rounded-xl hover:from-purple-600 hover:to-pink-600 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center gap-2">
+              <button
+                onClick={() =>
+                  navigate(`/dashboard/edit-event/${params?.eventId}`)
+                }
+                className="bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold py-3 px-6 rounded-xl hover:from-purple-600 hover:to-pink-600 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center gap-2"
+              >
                 <Edit className="w-5 h-5" />
                 Edit Event
               </button>

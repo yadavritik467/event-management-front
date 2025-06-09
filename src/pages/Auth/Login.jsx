@@ -1,7 +1,7 @@
 import { Calendar, Eye, EyeOff, Sparkles, Users } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../contextApi/AuthContext";
+import { useAuth } from "../../contextApi/AuthContext";
 
 const Login = () => {
   const navigate = useNavigate();
