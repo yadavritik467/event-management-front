@@ -1,6 +1,8 @@
 import {
   ArrowRight,
   Calendar,
+  ChevronDown,
+  Globe,
   Heart,
   Menu,
   Sparkles,
@@ -15,13 +17,16 @@ import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const { t, i18n } = useTranslation();
+  const [isOpen, setIsOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const [selectedLanguage, setSelectedLanguage] = useState("en");
 
   useEffect(() => {
     document.documentElement.dir = i18n.language === "ar" ? "rtl" : "ltr";
   }, [i18n.language]);
   const changeLanguage = (lang) => {
+    setSelectedLanguage(lang);
     i18n.changeLanguage(lang);
   };
 
@@ -56,24 +61,8 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900">
-      {/* Language Toggle */}
-      <div className="absolute top-4 right-4 z-50">
-        <button
-          onClick={() => changeLanguage("en")}
-          className="text-white px-3 py-1 rounded bg-purple-600 mx-1"
-        >
-          EN
-        </button>
-        <button
-          onClick={() => changeLanguage("ar")}
-          className="text-white px-3 py-1 rounded bg-pink-600 mx-1"
-        >
-          AR
-        </button>
-      </div>
-
       {/* Navbar */}
-      <nav className="relative z-10 bg-white/10 backdrop-blur-lg border-b border-white/20">
+      <nav className="relative z-20 bg-white/10 backdrop-blur-lg border-b border-white/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
@@ -112,6 +101,64 @@ const Home = () => {
               >
                 {t("nav.login")}
               </button>
+              <div className="relative">
+                {/* Language Dropdown Button */}
+                <button
+                  onClick={() => setIsOpen(!isOpen)}
+                  className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl text-white hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300 shadow-lg"
+                >
+                  <Globe className="w-4 h-4 text-purple-300" />
+                  <span className="text-sm font-medium">
+                    {selectedLanguage === "en" ? "English" : "العربية"}
+                  </span>
+                  <ChevronDown
+                    className={`w-4 h-4 transition-transform duration-300 ${
+                      isOpen ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+
+                {/* Dropdown Menu */}
+                {isOpen && (
+                  <>
+                    {/* Backdrop */}
+                    <div
+                      className="fixed inset-0 z-10"
+                      onClick={() => setIsOpen(false)}
+                    />
+
+                    {/* Dropdown Content */}
+                    <div className="absolute top-full left-0 mt-2 w-48 bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl shadow-2xl z-20 overflow-hidden">
+                      <button
+                        onClick={() => changeLanguage("en")}
+                        className={`w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-white/20 transition-all duration-300 ${
+                          selectedLanguage === "en"
+                            ? "bg-gradient-to-r from-purple-500/30 to-pink-500/30 text-white border-l-2 border-purple-400"
+                            : "text-gray-300 hover:text-white"
+                        }`}
+                      >
+                        <span className="text-sm font-medium">English</span>
+                        {selectedLanguage === "en" && (
+                          <div className="ml-auto w-2 h-2 bg-purple-400 rounded-full"></div>
+                        )}
+                      </button>
+                      <button
+                        onClick={() => changeLanguage("ar")}
+                        className={`w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-white/20 transition-all duration-300 ${
+                          selectedLanguage === "ar"
+                            ? "bg-gradient-to-r from-purple-500/30 to-pink-500/30 text-white border-l-2 border-purple-400"
+                            : "text-gray-300 hover:text-white"
+                        }`}
+                      >
+                        <span className="text-sm font-medium">العربية</span>
+                        {selectedLanguage === "ar" && (
+                          <div className="ml-auto w-2 h-2 bg-purple-400 rounded-full"></div>
+                        )}
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
             </div>
 
             {/* Mobile menu button */}
@@ -149,6 +196,64 @@ const Home = () => {
                 >
                   {t("nav.contact")}
                 </a>
+                <div className="relative">
+                  {/* Language Dropdown Button */}
+                  <button
+                    onClick={() => setIsOpen(!isOpen)}
+                    className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl text-white hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300 shadow-lg"
+                  >
+                    <Globe className="w-4 h-4 text-purple-300" />
+                    <span className="text-sm font-medium">
+                      {selectedLanguage === "en" ? "English" : "العربية"}
+                    </span>
+                    <ChevronDown
+                      className={`w-4 h-4 transition-transform duration-300 ${
+                        isOpen ? "rotate-180" : ""
+                      }`}
+                    />
+                  </button>
+
+                  {/* Dropdown Menu */}
+                  {isOpen && (
+                    <>
+                      {/* Backdrop */}
+                      <div
+                        className="fixed inset-0 z-10"
+                        onClick={() => setIsOpen(false)}
+                      />
+
+                      {/* Dropdown Content */}
+                      <div className="absolute top-full left-0 mt-2 w-48 bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl shadow-2xl z-20 overflow-hidden">
+                        <button
+                          onClick={() => changeLanguage("en")}
+                          className={`w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-white/20 transition-all duration-300 ${
+                            selectedLanguage === "en"
+                              ? "bg-gradient-to-r from-purple-500/30 to-pink-500/30 text-white border-l-2 border-purple-400"
+                              : "text-gray-300 hover:text-white"
+                          }`}
+                        >
+                          <span className="text-sm font-medium">English</span>
+                          {selectedLanguage === "en" && (
+                            <div className="ml-auto w-2 h-2 bg-purple-400 rounded-full"></div>
+                          )}
+                        </button>
+                        <button
+                          onClick={() => changeLanguage("ar")}
+                          className={`w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-white/20 transition-all duration-300 ${
+                            selectedLanguage === "ar"
+                              ? "bg-gradient-to-r from-purple-500/30 to-pink-500/30 text-white border-l-2 border-purple-400"
+                              : "text-gray-300 hover:text-white"
+                          }`}
+                        >
+                          <span className="text-sm font-medium">العربية</span>
+                          {selectedLanguage === "ar" && (
+                            <div className="ml-auto w-2 h-2 bg-purple-400 rounded-full"></div>
+                          )}
+                        </button>
+                      </div>
+                    </>
+                  )}
+                </div>
                 <button
                   onClick={handleLogin}
                   className="bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold py-3 px-6 rounded-xl hover:from-purple-600 hover:to-pink-600 transition-all duration-300 w-full"
