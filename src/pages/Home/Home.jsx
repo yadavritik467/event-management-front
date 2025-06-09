@@ -28,6 +28,7 @@ const Home = () => {
   const changeLanguage = (lang) => {
     setSelectedLanguage(lang);
     i18n.changeLanguage(lang);
+    setIsOpen(false)
   };
 
   const features = [

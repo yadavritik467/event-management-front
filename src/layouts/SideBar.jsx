@@ -45,7 +45,6 @@ const SideBar = () => {
 
   const handleLogout = async () => {
     await logoutApi();
-    navigate("/login");
   };
 
   return (

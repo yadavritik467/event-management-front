@@ -13,6 +13,7 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
+  const [userLoading, setUserLoading] = useState(false);
   const [userState, setUserState] = useState(null);
 
   const signupApi = async (userNameOrEmail, password) => {
@@ -29,7 +30,7 @@ export const AuthProvider = ({ children }) => {
       console.log("error", error);
     }
   };
-  const loginApi = async (userNameOrEmail, password,togglerFunc) => {
+  const loginApi = async (userNameOrEmail, password, togglerFunc) => {
     try {
       setLoading(true);
       const { data } = await axiosInstance.post(`/auth/login`, {
@@ -52,18 +53,26 @@ export const AuthProvider = ({ children }) => {
 
   const logoutApi = async () => {
     try {
+      setUserLoading(true);
       const { data } = await axiosInstance.post(`/auth/logout`);
-      setUserState(null);
+      if (data) {
+        setUserState(null);
+        setUserLoading(false);
+      }
     } catch (error) {
+      setUserLoading(false);
       console.log("error", error);
     }
   };
 
   const myProfileApi = async () => {
     try {
+      setUserLoading(true);
       const { data } = await axiosInstance.get(`/auth/myProfile`);
       setUserState(data?.user);
+      setUserLoading(false);
     } catch (error) {
+      setUserLoading(false);
       if (error.response?.status === 401) {
         console.log("Not logged in");
       } else {
@@ -75,6 +84,7 @@ export const AuthProvider = ({ children }) => {
   const all_states = {
     loading,
     userState,
+    userLoading,
   };
 
   const all_api_controllers = {

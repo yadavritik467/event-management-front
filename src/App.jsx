@@ -9,7 +9,11 @@ import Dashboard from "./pages/Dashboard/Dashboard.jsx";
 import EditEvent from "./pages/Edit-Event/EditEvent.jsx";
 import SingleEvent from "./pages/Single-Event/SingleEvent.jsx";
 import Home from "./pages/Home/Home.jsx";
-
+import {
+  AdminRoute,
+  GuestRoute,
+  PrivateRoute,
+} from "./utils/ProtectedRoutes.jsx";
 
 const App = () => {
   const { myProfileApi } = useAuth();
@@ -20,13 +24,56 @@ const App = () => {
     <div className="w-full h-[100vh] bg-white">
       <ToastContainer />
       <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/" element={<Home />} />
-        <Route path="/dashboard" element={<DashboardLayout />}>
-          <Route path="" element={<Dashboard />} />
-          <Route path="create-event" element={<CreateEvent />} />
-          <Route path="single-event/:eventId" element={<SingleEvent />} />
-          <Route path="edit-event/:eventId" element={<EditEvent />} />
+        <Route
+          path="/login"
+          element={
+            <GuestRoute>
+              <Login />
+            </GuestRoute>
+          }
+        />
+        <Route
+          path="/"
+          element={
+            <GuestRoute>
+              <Home />
+            </GuestRoute>
+          }
+        />
+        <Route
+          path="/dashboard/*"
+          element={
+            <PrivateRoute>
+              <DashboardLayout />
+            </PrivateRoute>
+          }
+        >
+          <Route index element={<Dashboard />} />
+          <Route
+            path="create-event"
+            element={
+              <AdminRoute>
+                {" "}
+                <CreateEvent />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="single-event/:eventId"
+            element={
+              <AdminRoute>
+                <SingleEvent />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="edit-event/:eventId"
+            element={
+              <AdminRoute>
+                <EditEvent />
+              </AdminRoute>
+            }
+          />
         </Route>
       </Routes>
     </div>
