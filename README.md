@@ -1,12 +1,61 @@
-# React + Vite
+# 🎉 Event Management Frontend (Vite + React)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+#### A modern frontend application for an Event Management System, built with Vite and React, supporting authentication, role-based dashboards, event creation/editing, user registration, admin approvals, and RTL (Arabic) support with full translation (i18n).
 
-Currently, two official plugins are available:
+## 🔗 Live Link / Demo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+ https://event-management-front-ten.vercel.app
 
-## Expanding the ESLint configuration
+## 🧰 Tech Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- React (via Vite)
+
+- React Router DOM
+
+- React Context API (for Auth & Global State)
+
+- React Toastify (Notifications)
+
+- i18next (Translation support)
+
+- TailwindCSS (Styling)
+
+- Axios (API integration)
+
+- Lazy Loading via React.lazy and Suspense
+
+- Protected Routes (Private, Guest, Admin)
+
+- RTL + LTR layout toggle support
+
+## 🚀 Getting Started
+
+- Clone the repository
+
+```
+git clone https://github.com/yadavritik467/event-management-front.git
+
+cd event-management-front
+
+```
+
+- Install dependencies
+
+```
+npm install
+```
+
+- Setup environment variables
+  Create a .env file in the root with the following variables:
+
+```
+VITE_API_URL=http://localhost:5000/api
+
+```
+
+- start the APP
+
+```
+npm run dev
+
+```
