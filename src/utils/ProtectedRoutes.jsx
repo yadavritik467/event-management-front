@@ -1,6 +1,7 @@
 import { Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAuth } from "../contextApi/AuthContext";
+import Spinner from "../ui/Loader";
 
 export const PrivateRoute = ({ children }) => {
   const { userState } = useAuth();
@@ -13,7 +14,7 @@ export const PrivateRoute = ({ children }) => {
     if (userState) setWaitOver(true);
   }, [userState]);
 
-  if (!waitOver) return null;
+  if (!waitOver) return <Spinner/>;
 
   return userState ? children : <Navigate to="/" replace />;
 };
@@ -21,7 +22,7 @@ export const PrivateRoute = ({ children }) => {
 export const GuestRoute = ({ children }) => {
   const { userState, userLoading } = useAuth();
 
-  if (userLoading) return null;
+  if (userLoading) return <Spinner/>;
   else return !userState ? children : <Navigate to="/dashboard" replace />;
 };
 export const AdminRoute = ({ children }) => {
@@ -35,7 +36,7 @@ export const AdminRoute = ({ children }) => {
     if (userState) setWaitOver(true);
   }, [userState]);
 
-  if (!waitOver) return null;
+  if (!waitOver) return <Spinner/>;
 
   return userState?.role === "admin" ? (
     children

@@ -6,6 +6,7 @@ import {
   Menu,
   Plus,
   User,
+  Users,
   X,
 } from "lucide-react";
 import { useState } from "react";
@@ -22,20 +23,43 @@ const SideBar = () => {
 
   const navigate = useNavigate();
 
-  const menuItems = [
-    {
-      id: "dashboard",
-      label: "Dashboard",
-      icon: LayoutDashboard,
-      path: "/dashboard",
-    },
-    {
-      id: "create-event",
-      label: "Create Event",
-      icon: Plus,
-      path: "/dashboard/create-event",
-    },
-  ];
+ const menuItems = [
+  {
+    id: "dashboard",
+    label: "Dashboard",
+    icon: LayoutDashboard,
+    path: "/dashboard",
+    className: "flex", // visible to all
+  },
+  {
+    id: "create-event",
+    label: "Create Event",
+    icon: Plus,
+    path: "/dashboard/create-event",
+    className: userState?.role === "admin" ? "flex" : "hidden",
+  },
+  {
+    id: "my-events",
+    label: "My Events",
+    icon: Calendar,
+    path: "/dashboard",
+    className: userState?.role === "user" ? "flex" : "hidden",
+  },
+  {
+    id: "manage-users",
+    label: "Manage Users",
+    icon: Users,
+    path: "/dashboard",
+    className: userState?.role === "admin" ? "flex" : "hidden",
+  },
+  {
+    id: "profile",
+    label: "Profile",
+    icon: User,
+    path: "/dashboard",
+    className: "flex", // visible to all
+  },
+];
 
   const handleMenuClick = (itemId, path) => {
     setActiveItem(itemId);
@@ -129,7 +153,7 @@ const SideBar = () => {
                     key={item.id}
                     onClick={() => handleMenuClick(item.id, item.path)}
                     className={`
-                      w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-left transition-all duration-300 group
+                      w-full ${item?.className ? item?.className : ""}  items-center space-x-3 px-4 py-3 rounded-xl text-left transition-all duration-300 group
                       ${
                         isActive
                           ? "bg-gradient-to-r from-purple-500/30 to-pink-500/30 text-white border border-purple-400/50 shadow-lg"

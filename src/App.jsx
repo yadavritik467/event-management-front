@@ -1,25 +1,30 @@
-import { useEffect } from "react";
+import { useEffect, lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { useAuth } from "./contextApi/AuthContext.jsx";
-import DashboardLayout from "./layouts/DashboardLayout.jsx";
-import Login from "./pages/Auth/Login.jsx";
-import CreateEvent from "./pages/Create-Event/CreateEvent.jsx";
-import Dashboard from "./pages/Dashboard/Dashboard.jsx";
-import EditEvent from "./pages/Edit-Event/EditEvent.jsx";
-import SingleEvent from "./pages/Single-Event/SingleEvent.jsx";
-import Home from "./pages/Home/Home.jsx";
 import {
   AdminRoute,
   GuestRoute,
   PrivateRoute,
 } from "./utils/ProtectedRoutes.jsx";
+import Spinner from "./ui/Loader.js";
+
+// Lazy imports
+const DashboardLayout = lazy(() => import("./layouts/DashboardLayout"));
+const Login = lazy(() => import("./pages/Auth/Login"));
+const CreateEvent = lazy(() => import("./pages/Create-Event/CreateEvent"));
+const Dashboard = lazy(() => import("./pages/Dashboard/Dashboard"));
+const EditEvent = lazy(() => import("./pages/Edit-Event/EditEvent"));
+const SingleEvent = lazy(() => import("./pages/Single-Event/SingleEvent"));
+const Home = lazy(() => import("./pages/Home/Home"));
 
 const App = () => {
   const { myProfileApi } = useAuth();
+
   useEffect(() => {
     myProfileApi();
   }, []);
+
   return (
     <div className="w-full h-[100vh] bg-white">
       <ToastContainer />
@@ -28,7 +33,9 @@ const App = () => {
           path="/login"
           element={
             <GuestRoute>
-              <Login />
+              <Suspense fallback={<Spinner />}>
+                <Login />
+              </Suspense>
             </GuestRoute>
           }
         />
@@ -36,7 +43,9 @@ const App = () => {
           path="/"
           element={
             <GuestRoute>
-              <Home />
+              <Suspense fallback={<Spinner />}>
+                <Home />
+              </Suspense>
             </GuestRoute>
           }
         />
@@ -44,17 +53,27 @@ const App = () => {
           path="/dashboard/*"
           element={
             <PrivateRoute>
-              <DashboardLayout />
+              <Suspense fallback={<Spinner />}>
+                <DashboardLayout />
+              </Suspense>
             </PrivateRoute>
           }
         >
-          <Route index element={<Dashboard />} />
+          <Route
+            index
+            element={
+              <Suspense fallback={<Spinner />}>
+                <Dashboard />
+              </Suspense>
+            }
+          />
           <Route
             path="create-event"
             element={
               <AdminRoute>
-                {" "}
-                <CreateEvent />
+                <Suspense fallback={<Spinner />}>
+                  <CreateEvent />
+                </Suspense>
               </AdminRoute>
             }
           />
@@ -62,7 +81,9 @@ const App = () => {
             path="single-event/:eventId"
             element={
               <AdminRoute>
-                <SingleEvent />
+                <Suspense fallback={<Spinner />}>
+                  <SingleEvent />
+                </Suspense>
               </AdminRoute>
             }
           />
@@ -70,7 +91,9 @@ const App = () => {
             path="edit-event/:eventId"
             element={
               <AdminRoute>
-                <EditEvent />
+                <Suspense fallback={<Spinner />}>
+                  <EditEvent />
+                </Suspense>
               </AdminRoute>
             }
           />
