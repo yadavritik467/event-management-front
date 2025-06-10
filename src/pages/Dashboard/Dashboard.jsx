@@ -67,7 +67,7 @@ const Dashboard = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {allEvents.map((event) => {
               const eventDate = formatDate(event?.date);
-              const availableSpots = event?.availableCount || event?.capacity;
+              const availableSpots = event?.availableCount === event?.capacity ? event?.capacity : event?.capacity - event?.availableCount;
 
               return (
                 <div
