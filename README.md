@@ -4,7 +4,7 @@
 
 ## 🔗 Live Link / Demo
 
- https://event-management-front-ten.vercel.app
+https://event-management-front-ten.vercel.app
 
 ## 🧰 Tech Stack
 
@@ -29,6 +29,27 @@
 - RTL + LTR layout toggle support
 
 ## 🚀 Getting Started
+
+### For running this application on your local machine
+
+- You must have node js and npm installed on your local machine visit the below link to download the node js
+
+https://nodejs.org/en/download
+
+to check it if its is installed properly run this command
+
+# Verify the Node.js version:
+```
+node -v
+
+```
+
+# Verify npm version:
+```
+npm -v
+
+```
+
 
 - Clone the repository
 
