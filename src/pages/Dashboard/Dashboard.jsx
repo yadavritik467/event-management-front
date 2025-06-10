@@ -44,9 +44,9 @@ const Dashboard = () => {
     <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900">
       <div className="relative z-10 p-4 md:p-6 lg:p-8">
         {/* Header */}
-        <div className="max-w-7xl mx-auto mb-8">
+        <div className="max-w-7xl mb-8">
           <div className="bg-white/10 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/20 p-6 md:p-8">
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 ">
               <div>
                 <h1 className="text-3xl md:text-4xl font-bold text-white mb-2 flex items-center gap-3">
                   <div className="bg-gradient-to-r from-purple-400 to-pink-400 p-2 rounded-xl">
@@ -64,7 +64,7 @@ const Dashboard = () => {
 
         {/* Events Grid */}
         <div className="w-full">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
             {allEvents.map((event) => {
               const eventDate = formatDate(event?.date);
               const availableSpots = event?.availableCount === event?.capacity ? event?.capacity : event?.capacity - event?.availableCount;

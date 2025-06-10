@@ -14,52 +14,37 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contextApi/AuthContext";
 import { useEvent } from "../contextApi/EventContext";
 
-const SideBar = () => {
+const SideBar = ({isMobileOpen , setIsMobileOpen}) => {
   const { logoutApi, userState } = useAuth();
-  const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [activeItem, setActiveItem] = useState("/dashboard");
 
   const { allEvents } = useEvent();
 
   const navigate = useNavigate();
 
- const menuItems = [
-  {
-    id: "dashboard",
-    label: "Dashboard",
-    icon: LayoutDashboard,
-    path: "/dashboard",
-    className: "flex", // visible to all
-  },
-  {
-    id: "create-event",
-    label: "Create Event",
-    icon: Plus,
-    path: "/dashboard/create-event",
-    className: userState?.role === "admin" ? "flex" : "hidden",
-  },
-  {
-    id: "my-events",
-    label: "My Events",
-    icon: Calendar,
-    path: "/dashboard",
-    className: userState?.role === "user" ? "flex" : "hidden",
-  },
-  {
-    id: "manage-users",
-    label: "Manage Users",
-    icon: Users,
-    path: "/dashboard",
-    className: userState?.role === "admin" ? "flex" : "hidden",
-  },
-  {
-    id: "profile",
-    label: "Profile",
-    icon: User,
-    path: "/dashboard",
-    className: "flex", // visible to all
-  },
-];
+  const menuItems = [
+    {
+      id: "dashboard",
+      label: "Dashboard",
+      icon: LayoutDashboard,
+      path: "/dashboard",
+      className: "flex", // visible to all
+    },
+    {
+      id: "create-event",
+      label: "Create Event",
+      icon: Plus,
+      path: "/dashboard/create-event",
+      className: userState?.role === "admin" ? "flex" : "hidden",
+    },
+    {
+      id: "my-events",
+      label: "My Events",
+      icon: Calendar,
+      path: "/dashboard",
+      className: userState?.role === "user" ? "flex" : "hidden",
+    },
+  ];
 
   const handleMenuClick = (itemId, path) => {
     setActiveItem(itemId);
@@ -76,13 +61,13 @@ const SideBar = () => {
       {/* Mobile Menu Button */}
       <button
         onClick={() => setIsMobileOpen(true)}
-        className="lg:hidden fixed top-4 left-4 z-50 bg-white/10 backdrop-blur-lg border border-white/20  p-3 rounded-xl hover:bg-white/20 transition-all duration-300 shadow-lg"
+        className={` ${isMobileOpen ? "hidden":"block"}  lg:hidden fixed top-4 left-4 z-50 bg-white/10 backdrop-blur-lg border border-white/20  p-3 rounded-xl hover:bg-white/20 transition-all duration-300 shadow-lg`}
       >
         <Menu className="w-6 h-6" />
       </button>
 
       {/* Mobile Overlay */}
-      {isMobileOpen && (
+      {/* {isMobileOpen && (
         <div
           className="lg:hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
           onClick={() => setIsMobileOpen(false)}
@@ -90,12 +75,12 @@ const SideBar = () => {
           {" "}
           <X className="w-6 h-6" />
         </div>
-      )}
+      )} */}
 
       {/* Sidebar */}
       <div
         className={`
-          h-full w-full bg-gradient-to-b from-indigo-900/95 via-purple-900/95 to-pink-900/95 
+          h-[100vh] overflow-auto w-full bg-gradient-to-b from-indigo-900/95 via-purple-900/95 to-pink-900/95 
         backdrop-blur-xl border-r border-white/20 shadow-2xl z-50 transform transition-transform duration-300 ease-in-out
         ${isMobileOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0
       `}
@@ -153,7 +138,9 @@ const SideBar = () => {
                     key={item.id}
                     onClick={() => handleMenuClick(item.id, item.path)}
                     className={`
-                      w-full ${item?.className ? item?.className : ""}  items-center space-x-3 px-4 py-3 rounded-xl text-left transition-all duration-300 group
+                      w-full ${
+                        item?.className ? item?.className : ""
+                      }  items-center space-x-3 px-4 py-3 rounded-xl text-left transition-all duration-300 group
                       ${
                         isActive
                           ? "bg-gradient-to-r from-purple-500/30 to-pink-500/30 text-white border border-purple-400/50 shadow-lg"
